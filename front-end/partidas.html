@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partidas - Arena ADS</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+    <header class="topo">
+        <div class="topo-esquerda">
+            <a href="index.html" class="voltar">← Voltar</a>
+            <h1>Partidas</h1>
+            <p id="subtitulo"></p>
+        </div>
+        <div class="topo-direita">
+            <select id="ordemPartidas">
+                <option value="data">Por data</option>
+                <option value="placar">Por placar</option>
+                <option value="status">Por status</option>
+            </select>
+            <button id="botaoTema">Trocar tema</button>
+        </div>
+    </header>
+    <main class="container">
+        <div id="mensagem" class="mensagem"></div>
+        <div class="partida">
+            <input id="timeA" placeholder="Time A *">
+            <input id="timeB" placeholder="Time B *">
+            <input id="dataPartida" type="date">
+            <button id="agendar">+ Agendar Partida</button>
+        </div>
+        <section id="partidas" class="lista-partidas"></section>
+    </main>
+    <script src="scripts/partidas.js"></script>
+</body>
+</html>
