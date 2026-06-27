@@ -10,7 +10,23 @@ const salvar = document.getElementById("salvar");
 
 const nome = document.getElementById("nome");
 const jogo = document.getElementById("jogo");
-const formato = document.getElementById("formato");
+const botaoTema = document.getElementById("botaoTema");
+
+if(localStorage.getItem("tema") === "dark"){
+    document.body.classList.add("dark");
+}
+
+botaoTema.addEventListener("click", () => {
+
+    document.body.classList.toggle("dark");
+
+    const tema = document.body.classList.contains("dark")
+        ? "dark"
+        : "light";
+
+    localStorage.setItem("tema", tema);
+
+});
 
 abrirTorneio.addEventListener("click", () => {
     popup.classList.remove("popup-escondido");
@@ -18,7 +34,9 @@ abrirTorneio.addEventListener("click", () => {
 
 fechar.addEventListener("click", () => {
     popup.classList.add("popup-escondido");
-})
+});
+
+
 
 async function carregarTorneios() {
     try {
