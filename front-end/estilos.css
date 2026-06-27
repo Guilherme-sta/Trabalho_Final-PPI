@@ -1,0 +1,448 @@
+
+/* ==========================================================
+   1. VARIÁVEIS (CORES, SOMBRAS E TRANSIÇÕES)
+========================================================== */
+
+:root {
+  /* Cores */
+  --bg: #f0edf8;
+  --bg-card: #ffffff;
+  --bg-topo: #1a0a2e;
+
+  --texto: #1a1a1a;
+  --texto-s: #5a5a6e;
+  --borda: #c8bfd9;
+
+  --prim: #5b2d8e;
+  --prim-h: #3d1a6e;
+
+  --sucesso: #d4edda;
+  --sucesso-t: #1e7a44;
+
+  --erro: #fdecea;
+  --erro-t: #8b1a1a;
+
+  --aviso: #fff3cd;
+  --aviso-t: #c05c00;
+
+  /* Layout */
+  --radius: 12px;
+  --sombra: 0 2px 10px rgba(0,0,0,.10);
+  --transicao: .25s ease;
+}
+
+/* ==========================================================
+   2. TEMA ESCURO
+========================================================== */
+
+body.dark {
+  --bg: #0d0718;
+  --bg-card: #1a0f2e;
+  --bg-topo: #07030f;
+
+  --texto: #e8e0f5;
+  --texto-s: #9080b0;
+  --borda: #2e1f4a;
+
+  --prim: #9b6ddd;
+  --prim-h: #b98af0;
+
+  --sombra: 0 2px 10px rgba(0,0,0,.45);
+}
+
+/* ==========================================================
+   3. RESET E ESTILOS GERAIS
+========================================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:var(--bg);
+    color:var(--texto);
+    font-family:Arial,sans-serif;
+    transition:
+        background var(--transicao),
+        color var(--transicao);
+}
+
+/* ==========================================================
+   4. CABEÇALHO
+========================================================== */
+
+.topo{
+    background:var(--bg-topo);
+    color:#fff;
+    padding:16px 24px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.topo h1{
+    font-size:1.5rem;
+}
+
+.topo p{
+    font-size:.88rem;
+    opacity:.75;
+}
+
+.topo-direita{
+    display:flex;
+    gap:10px;
+    align-items:center;
+}
+
+.topo select,
+.topo button{
+    background:rgba(255,255,255,.15);
+    color:#fff;
+    border:1px solid rgba(255,255,255,.30);
+    border-radius:6px;
+    padding:6px 12px;
+    cursor:pointer;
+}
+
+/* ==========================================================
+   5. CONTAINER E LAYOUT
+========================================================== */
+
+.container{
+    max-width:980px;
+    margin:0 auto;
+    padding:24px 16px;
+}
+
+.grade{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+    gap:20px;
+}
+
+/* ==========================================================
+   6. CARDS
+========================================================== */
+
+.card{
+    background:var(--bg-card);
+    border:1px solid var(--borda);
+    border-radius:14px;
+    padding:20px;
+
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+
+    box-shadow:var(--sombra);
+}
+
+.card-topo{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:8px;
+}
+
+.card h3{
+    color:var(--prim);
+    font-size:1.05rem;
+}
+
+.detalhe{
+    color:var(--texto-s);
+    font-size:.88rem;
+}
+
+/* ==========================================================
+   7. BADGES
+========================================================== */
+
+.badge{
+    display:inline-block;
+    padding:3px 10px;
+    border-radius:999px;
+    font-size:.76rem;
+    font-weight:bold;
+}
+
+.badge-aberto{
+    background:var(--sucesso);
+    color:var(--sucesso-t);
+}
+
+.badge-em_andamento{
+    background:var(--aviso);
+    color:var(--aviso-t);
+}
+
+.badge-encerrado{
+    background:var(--borda);
+    color:var(--texto-s);
+}
+
+.badge-agendada{
+    background:var(--aviso);
+    color:var(--aviso-t);
+}
+
+.badge-finalizada{
+    background:var(--sucesso);
+    color:var(--sucesso-t);
+}
+
+.badge-cancelada{
+    background:var(--erro);
+    color:var(--erro-t);
+}
+
+/* ==========================================================
+   8. BOTÕES
+========================================================== */
+
+.botao-adicionar{
+    position:fixed;
+    bottom:32px;
+    right:32px;
+
+    width:56px;
+    height:56px;
+
+    border:none;
+    border-radius:50%;
+
+    background:var(--prim);
+    color:#fff;
+
+    font-size:2rem;
+    cursor:pointer;
+
+    box-shadow:var(--sombra);
+}
+
+.botao-adicionar:hover{
+    background:var(--prim-h);
+}
+
+.acoes{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-top:4px;
+}
+
+.acoes button{
+    border:none;
+    border-radius:6px;
+    padding:6px 12px;
+    cursor:pointer;
+    font-size:.83rem;
+}
+
+.btn-ver{
+    background:var(--prim);
+    color:#fff;
+}
+
+.btn-edit,
+.btn-status{
+    background:var(--aviso);
+    color:var(--aviso-t);
+}
+
+.btn-del{
+    background:var(--erro);
+    color:var(--erro-t);
+}
+
+/* ==========================================================
+   9. FORMULÁRIOS
+========================================================== */
+
+label{
+    font-weight:bold;
+    font-size:.9rem;
+}
+
+input,
+select{
+    border:1px solid var(--borda);
+    border-radius:8px;
+    padding:10px;
+
+    background:var(--bg);
+    color:var(--texto);
+}
+option {
+    background: var(--bg-card);
+    color: var(--texto);
+}
+
+/* ==========================================================
+   10. POPUP
+========================================================== */
+
+.popup{
+    position:fixed;
+    inset:0;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    
+    background:rgba(0,0,0,.55);
+
+
+    z-index:100;
+}
+
+.popup-escondido{
+    display:none;
+}
+
+.caixa-popup{
+    background:var(--bg-card);
+
+    width:min(460px,95vw);
+
+    padding:28px;
+
+    border-radius:16px;
+
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+
+    position:relative;
+}
+
+.fechar{
+    position:absolute;
+    top:12px;
+    right:16px;
+
+    width: 34px;
+    height: 34px;
+
+    border:none;
+    border-radius: 50%;
+    
+    background:none;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:22px;
+    font-weight:bold;
+}
+
+.fechar:hover{
+        background: rgba(0,0,0,.08);
+}
+
+#salvar{
+    background:var(--prim);
+    color:#fff;
+
+    border:none;
+
+    border-radius:8px;
+
+    padding:11px;
+
+    cursor:pointer;
+}
+
+/* ==========================================================
+   11. PARTIDAS
+========================================================== */
+
+/* .form-partida */
+/* .lista-partidas */
+/* .card-partida */
+/* .placar */
+/* .info-partida */
+/* .form-resultado */
+
+/* ==========================================================
+   12. MENSAGENS
+========================================================== */
+
+.mensagem{
+    padding: 10px 16px;
+    border-radius:8px;
+    margin-bottom: 16px;
+    min-height: 20px;
+}
+.mensagem.sucesso{
+    background:var(--sucesso);
+    color:var(--sucesso-t);
+}
+
+.mensagem.erro{
+    background:var(--erro);
+    color:var(--erro-t);
+}
+
+.mensagem.aviso{
+    background:var(--aviso);
+    color:var(--aviso-t);
+}
+
+.vazio{
+    color:var(--texto-s);
+    text-align:center;
+    padding:48px;
+}
+
+/* ==========================================================
+   13. ANIMAÇÕES E EFEITOS
+========================================================== */
+
+button,
+.card,
+.btn-flutuante,
+.caixa-popup{
+    transition:all var(--transicao);
+}
+
+.card:hover{
+    transform:translateY(-4px);
+}
+
+button:hover{
+    transform:translateY(-2px);
+}
+
+input:focus,
+select:focus{
+    outline:none;
+    border-color:var(--prim);
+}
+
+/* ==========================================================
+   14. RESPONSIVIDADE
+========================================================== */
+
+@media (max-width:768px){
+
+    .topo{
+        flex-direction:column;
+        gap:16px;
+        text-align:center;
+    }
+
+    .grade{
+        grid-template-columns:1fr;
+    }
+
+    .container{
+        padding:16px;
+    }
+
+}
