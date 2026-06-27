@@ -21,7 +21,36 @@ fechar.addEventListener("click", () => {
 })
 
 async function carregarTorneios() {
+    try {
+        mensagem.textContent = "Carregando torneios..."
 
+        const resposta = await fetch(API_URL);
+        const torneios = await resposta.json();
+
+        grade.innerHTML = " ";
+
+        if (torneios.lenght === 0) {
+            mensagem.textContent = "Nenhum torneio cadastrado";
+            return;
+        }
+
+        mensagem.textContent = "";
+
+        torneios.forEach((torneio) => {
+            const card = document.createElement("div");
+
+            card.innerHTML = `
+                <h3>${torneio.nome}</h3>
+                <p>Jogo: ${torneio.jogo}</p>
+                <p>Formato: ${torneio.formato}</p>
+            `;
+
+            grade.appendChild(card);
+        });
+    } catch (erro) {
+        mensagem.textContent = "Erro ao carregar torneios";
+        console.error(erro);
+    }
 }
 
 carregarTorneios();
