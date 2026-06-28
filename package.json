@@ -1,27 +1,21 @@
 {
-  "dependencies": {
-    "better-sqlite3": "^12.11.1",
-    "cors": "^2.8.6",
-    "express": "^5.2.1"
-  },
   "name": "trabalho_final-ppi",
   "version": "1.0.0",
   "description": "Repositório de armazenamento dos códigos do Trabalho Final de Programação para Internet I",
-  "main": "index.js",
-  "devDependencies": {},
+  "main": "back-end/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node back-end/index.js",
+    "dev": "node back-end/index.js"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^0.10.4",
+    "cors": "^2.8.6",
+    "express": "^5.2.1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Guilherme-sta/Trabalho_Final-PPI.git"
   },
-  "keywords": [],
-  "author": "",
   "license": "ISC",
-  "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/Guilherme-sta/Trabalho_Final-PPI/issues"
-  },
-  "homepage": "https://github.com/Guilherme-sta/Trabalho_Final-PPI#readme"
+  "type": "commonjs"
 }
