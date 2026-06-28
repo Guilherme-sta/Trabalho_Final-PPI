@@ -12,7 +12,15 @@ document.addEventListener("DOMContentLoaded", () => {
         const novoTema = document.body.classList.contains('dark') ? 'light' : 'dark';
         aplicarTema(novoTema);
     });
-    carregarPartidas();
+
+    const selectOrdem = document.getElementById('ordemPartidas');
+    selectOrdem.value = localStorage.getItem('ordemListaPartidas') || 'data';
+    selectOrdem.addEventListener('change', () => {
+        localStorage.setItem('ordemListaPartidas', selectOrdem.value);
+        carregarPartidas();
+    });
+
+    carregarPartidas(); 
 });
 
 async function carregarPartidas() {
@@ -26,10 +34,9 @@ async function carregarPartidas() {
             container.innerHTML = '<p class="vazio">Nenhum torneio cadastrado.</p>';
             return;
         }
-
         const todasPartidas = await Promise.all(
             torneios.map(t =>
-                fetch(`${API_URL}/torneios/${t.id}/partidas`)
+                fetch(`${API_URL}/torneios/${t.id}/partidas?ordem=${localStorage.getItem('ordemListaPartidas') || 'data'}`)
                     .then(r => r.json())
                     .then(partidas => partidas.map(p => ({ ...p, nomeTorneio: t.nome })))
                     .catch(() => [])
