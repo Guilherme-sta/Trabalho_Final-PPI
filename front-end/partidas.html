@@ -4,34 +4,110 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Partidas - Arena ADS</title>
+
     <link rel="stylesheet" href="estilos.css">
 </head>
+
 <body>
+
     <header class="topo">
+
         <div class="topo-esquerda">
-            <a href="index.html" class="voltar">← Voltar</a>
+
+            <a href="index.html" class="botao-voltar">
+                ← Voltar aos Torneios
+            </a>
+
             <h1>Partidas</h1>
-            <p id="subtitulo"></p>
+
+        
+
         </div>
+
         <div class="topo-direita">
+
             <select id="ordemPartidas">
                 <option value="data">Por data</option>
                 <option value="placar">Por placar</option>
                 <option value="status">Por status</option>
             </select>
-            <button id="botaoTema">Trocar tema</button>
+
+            <button id="botaoTema">
+                Trocar tema
+            </button>
+
         </div>
+
     </header>
+
     <main class="container">
+
         <div id="mensagem" class="mensagem"></div>
-        <div class="partida">
-            <input id="timeA" placeholder="Time A *">
-            <input id="timeB" placeholder="Time B *">
-            <input id="dataPartida" type="date">
-            <button id="agendar">+ Agendar Partida</button>
-        </div>
-        <section id="partidas" class="lista-partidas"></section>
+
+        <section class="painel-partidas">
+
+            <div class="cabecalho-partidas">
+
+                <h2>Agendar Nova Partida</h2>
+
+                <p>
+                    Cadastre uma nova partida para este torneio.
+                </p>
+
+            </div>
+
+            <div class="partida">
+
+                <div class="campo">
+                    <label for="timeA">Time A</label>
+                    <input
+                        id="timeA"
+                        type="text"
+                        placeholder="Nome do Time A">
+                </div>
+
+                <div class="campo">
+                    <label for="timeB">Time B</label>
+                    <input
+                        id="timeB"
+                        type="text"
+                        placeholder="Nome do Time B">
+                </div>
+
+                <div class="campo">
+                    <label for="dataPartida">Data</label>
+                    <input
+                        id="dataPartida"
+                        type="date">
+                </div>
+
+                <button id="agendar">
+                    Agendar Partida
+                </button>
+
+            </div>
+
+        </section>
+
+        <section class="lista-partidas">
+
+            <h2 class="titulo-lista">
+                Partidas Agendadas
+            </h2>
+
+            <div id="partidas">
+
+                <p class="vazio">
+                    Nenhuma partida cadastrada.
+                </p>
+
+            </div>
+
+        </section>
+
     </main>
+
     <script src="scripts/partidas.js"></script>
+
 </body>
 </html>

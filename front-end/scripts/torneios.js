@@ -8,18 +8,33 @@ document.addEventListener('DOMContentLoaded', () => {
     const selectOrdem = document.getElementById('ordem');
 
     // Tema Dark
-    function aplicarTema(tema) {
-        document.body.classList.toggle('dark', tema === 'dark');
-        document.getElementById('botaoTema').textContent = tema === 'dark' ? 'Light' : 'Dark';
-        localStorage.setItem('tema', tema);
-    };
+   function aplicarTema(tema) {
 
-    aplicarTema(localStorage.getItem('tema') || 'light');
+    const modoEscuro = tema === "dark";
 
-    botaoTema.addEventListener('click', () => {
-        const novo = document.body.classList.contains('dark') ? 'light': 'dark';
-        aplicarTema(novo)
-    });
+    document.body.classList.toggle("dark", modoEscuro);
+
+    botaoTema.textContent = modoEscuro ? "☀️" : "🌙";
+
+    botaoTema.title = modoEscuro
+        ? "Alternar para tema claro"
+        : "Alternar para tema escuro";
+
+    localStorage.setItem("tema", tema);
+
+}
+
+aplicarTema(localStorage.getItem("tema") || "light");
+
+botaoTema.addEventListener("click", () => {
+
+    const novoTema = document.body.classList.contains("dark")
+        ? "light"
+        : "dark";
+
+    aplicarTema(novoTema);
+
+});
 
     // Ordenação 
     selectOrdem.value = localStorage.getItem('ordemTorneios') || 'recentes';

@@ -6,58 +6,166 @@
     <title>Arena ADS</title>
     <link rel="stylesheet" href="estilos.css">
 </head>
+
 <body>
+
     <header class="topo">
         <div class="topo-esquerda">
             <h1>Arena ADS</h1>
             <p>Gerenciador de Torneios</p>
         </div>
+
         <div class="topo-direita">
             <select id="ordem">
                 <option value="recentes">Mais recentes</option>
                 <option value="nome">Nome</option>
                 <option value="status">Por status</option>
             </select>
+
             <button id="botaoTema">Mudar tema</button>
         </div>
     </header>
 
-    <main class ="container">
+    <main class="container">
+
         <div id="mensagem" class="mensagem"></div>
-        <div id="gradeTorneios"></div>
+
+        <!-- Painel Principal -->
+
+        <section class="painel-acoes">
+
+            <div class="cabecalho-painel">
+                <h2>Bem-vindo ao Arena ADS</h2>
+                <p>
+                    Organize torneios e partidas em um único lugar.
+                </p>
+            </div>
+
+            <div class="menu-principal">
+
+        <!-- Criar Torneio -->
+        <button
+            class="card-menu"
+            id="abrirTorneio">
+
+            <strong>🏆 Criar Torneio</strong>
+
+            <span>
+                Cadastre um novo campeonato
+            </span>
+
+        </button>
+
+        <!-- Ver Torneios -->
+        <button
+            class="card-menu"
+            onclick="document.getElementById('gradeTorneios').scrollIntoView({ behavior: 'smooth' })">
+
+            <strong>📋 Torneios Cadastrados</strong>
+
+            <span>
+                Visualize todos os torneios cadastrados
+            </span>
+
+        </button>
+
+        <!-- Gerenciar Partidas -->
+        <button
+            class="card-menu"
+            onclick="location.href='partidas.html'">
+
+            <strong>⚔️ Gerenciar Partidas</strong>
+
+            <span>
+                Cadastre e organize as partidas
+            </span>
+
+        </button>
+
+        <!-- Ver Partidas -->
+        <button
+            class="card-menu"
+            onclick="location.href='listar-partidas.html'">
+
+            <strong>🎮 Partidas Cadastradas</strong>
+
+            <span>
+                Consulte as partidas registradas
+            </span>
+
+        </button>
+
+    </div>
+
+        </section>
+
+        <!-- Lista de Torneios -->
+
+        <section class="lista-torneios">
+
+            <h2 class="titulo-lista">
+                Torneios
+            </h2>
+
+            <div id="gradeTorneios"></div>
+
+        </section>
+
     </main>
 
-    <button id="abrirTorneio" class="botao-adicionar" title="novo-torneio">+</button>
+    <!-- Popup -->
 
     <div id="popup" class="popup popup-escondido">
+
         <div class="caixa-popup">
-            <button id="botaoFechar" class="fechar">x</button>
-            <h2 id="titulo">Novo Torneio</h2>
+
+            <button id="botaoFechar" class="fechar">
+                ×
+            </button>
+
+            <h2 id="titulo">
+                Novo Torneio
+            </h2>
+
             <input id="id" type="hidden">
+
             <label>Nome do torneio *</label>
             <input id="nome" placeholder="Ex: Copa ADS 2025">
+
             <label>Jogo *</label>
             <input id="jogo" placeholder="Ex: Valorant, CS2, FIFA">
+
             <label>Formato *</label>
+
             <select id="formato">
                 <option value="">Selecione...</option>
                 <option>Eliminação simples</option>
                 <option>Eliminação dupla</option>
                 <option>Todos contra todos</option>
-                <option>Suiço</option>
+                <option>Suíço</option>
             </select>
-            <div id="blocoStatus" style="display: none">
+
+            <div id="blocoStatus" style="display:none">
+
                 <label>Status</label>
+
                 <select id="status">
                     <option value="aberto">Aberto</option>
                     <option value="em_andamento">Em andamento</option>
                     <option value="encerrado">Encerrado</option>
                 </select>
+
             </div>
-            <button id="salvar">Salvar</button>
+
+            <button id="salvar">
+                Salvar
+            </button>
+
         </div>
+
     </div>
 
     <script src="scripts/torneios.js"></script>
+
 </body>
 </html>
