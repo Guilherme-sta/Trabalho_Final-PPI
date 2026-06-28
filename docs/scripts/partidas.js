@@ -13,7 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Tema
     const botaoTema = document.getElementById('botaoTema');
-
     function aplicarTema(tema) {
         const modoEscuro = tema === 'dark';
         document.body.classList.toggle('dark', modoEscuro);
@@ -32,11 +31,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Ordenação
     const selectOrdem = document.getElementById('ordemPartidas');
     if (selectOrdem) {
-        selectOrdem.addEventListener('change', carregarPartidas);
+        selectOrdem.value = localStorage.getItem('ordemPartidas') || 'data';
+        selectOrdem.addEventListener('change', () => {
+            localStorage.setItem('ordemPartidas', selectOrdem.value);
+            carregarPartidas();
+        });
     }
 
     const mensagem = document.getElementById('mensagem');
-
     function mostrarMensagem(texto,tipo = '') {
         mensagem.textContent = texto;
         mensagem.className = 'mensagem ' + tipo;
@@ -50,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
             mostrarMensagem('Torneio não identificado. Volte à página inicial.', 'erro');
             return;
         }
-        const ordem = selectOrdem ? selectOrdem.value : 'data';
+        const ordem = localStorage.getItem('ordemPartidas') || 'data';
         try {
             const response = await fetch(`${API_URL}/torneios/${TORNEIO_ID}/partidas?ordem=${ordem}`);
             if (!response.ok) throw new Error();
