@@ -7,14 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 async function carregarPartidas(){
-
-    // IMPLEMENTAR API
-
 }
 
 function renderizarPartidas(lista){
-
-    // IMPLEMENTAR
-
 }
-
