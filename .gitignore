@@ -1,3 +1,4 @@
 node_modules/
 **/node_modules/
 arena_ads.db
+.env
