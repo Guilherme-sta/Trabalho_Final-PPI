@@ -1,6 +1,17 @@
 const API_URL = "https://trabalho-final-ppi-kappa-two.vercel.app";
 
 document.addEventListener("DOMContentLoaded", () => {
+    const botaoTema = document.getElementById('botaoTema');
+    function aplicarTema(tema) {
+        document.body.classList.toggle('dark', tema === 'dark');
+        botaoTema.textContent = tema === 'dark' ? '☀️' : '🌙';
+        localStorage.setItem('tema', tema);
+    }
+    aplicarTema(localStorage.getItem('tema') || 'light');
+    botaoTema.addEventListener('click', () => {
+        const novoTema = document.body.classList.contains('dark') ? 'light' : 'dark';
+        aplicarTema(novoTema);
+    });
     carregarPartidas();
 });
 
