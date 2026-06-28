@@ -1,74 +1,228 @@
-const API_URL = "http://localhost:3000/torneios";
+const API_URL = "http://localhost:3000";
+document.addEventListener('DOMContentLoaded', () => {
 
-const grade = document.getElementById("gradeTorneios");
-const mensagem = document.getElementById("mensagem");
+    const grade = document.getElementById("gradeTorneios");
+    const mensagem = document.getElementById("mensagem");
+    const popup = document.getElementById("popup");
+    const botaoTema = document.getElementById("botaoTema");
+    const selectOrdem = document.getElementById('ordem');
 
-const popup = document.getElementById("popup");
-const abrirTorneio = document.getElementById("abrirTorneio");
-const fechar = document.getElementById("botaoFechar");
-const salvar = document.getElementById("salvar");
+    // Tema Dark
+    function aplicarTema(tema) {
+        document.body.classList.toggle('dark', tema === 'dark');
+        document.getElementById('botaoTema').textContent = tema === 'dark' ? 'Light' : 'Dark';
+        localStorage.setItem('tema', tema);
+    };
 
-const nome = document.getElementById("nome");
-const jogo = document.getElementById("jogo");
-const botaoTema = document.getElementById("botaoTema");
+    aplicarTema(localStorage.getItem('tema') || 'light');
 
-if(localStorage.getItem("tema") === "dark"){
-    document.body.classList.add("dark");
-}
+    botaoTema.addEventListener('click', () => {
+        const novo = document.body.classList.contains('dark') ? 'light': 'dark';
+        aplicarTema(novo)
+    });
 
-botaoTema.addEventListener("click", () => {
+    // Ordenação 
+    selectOrdem.value = localStorage.getItem('ordemTorneios') || 'recentes';
+    selectOrdem.addEventListener('change', () => {
+        localStorage.setItem('ordemTorneios', selectOrdem.value);
+        carregarTorneios();
+    })
 
-    document.body.classList.toggle("dark");
+    // Cache Offline 
+    function salvarCache(dados) {
+        localStorage.setItem('cacheTorneios', JSON.stringify(dados));
+    }
 
-    const tema = document.body.classList.contains("dark")
-        ? "dark"
-        : "light";
+    function lerCache() {
+        const c = localStorage.getItem('cacheTorneios');
+        return c ? JSON.parse(c) : null;
+    }
 
-    localStorage.setItem("tema", tema);
+    // Listar Torneios - Carregar
+    async function carregarTorneios() {
+        const ordem = localStorage.getItem('ordemTorneios') || 'recentes';
+        try {
+            const response = await fetch(`${API_URL}/torneios?ordem=${ordem}`);
+            if (!response.ok) throw new Error();
+            const dados = await response.json();
+            salvarCache(dados);
+            renderizarTorneios(dados);
+            mostrarMensagem('');
+        } catch {
+            const cache = lerCache();
+            if (cache) {
+                renderizarTorneios(cache);
+                mostrarMensagem('Sem conexão - Dados em cache', 'aviso');
+            } else {
+                mostrarMensagem('Sem conexão - Sem Dados cache...', 'erro');
+            }
+        }
+    }
 
-});
+    // Renderizar Card
+    const BADGE = {
+        aberto       : 'Aberto',
+        em_andamento : 'Em andamento',
+        encerrado    : 'Encerrado',
+    };
 
-abrirTorneio.addEventListener("click", () => {
-    popup.classList.remove("popup-escondido");
-});
+    function renderizarTorneios(lista) {
+        grade.innerHTML = '';
+        grade.className = '';
 
-fechar.addEventListener("click", () => {
-    popup.classList.add("popup-escondido");
-});
-
-
-
-async function carregarTorneios() {
-    try {
-        mensagem.textContent = "Carregando torneios..."
-
-        const resposta = await fetch(API_URL);
-        const torneios = await resposta.json();
-
-        grade.innerHTML = " ";
-
-        if (torneios.lenght === 0) {
-            mensagem.textContent = "Nenhum torneio cadastrado";
+        if (!lista.length) {
+            grade.innerHTML = '<p class="vazio">Nenhum torneio cadastrado.</p>';
             return;
         }
 
-        mensagem.textContent = "";
+        grade.className = 'grade';
 
-        torneios.forEach((torneio) => {
-            const card = document.createElement("div");
-
+        lista.forEach(t => {
+            const card = document.createElement('article');
+            card.className = 'card';
             card.innerHTML = `
-                <h3>${torneio.nome}</h3>
-                <p>Jogo: ${torneio.jogo}</p>
-                <p>Formato: ${torneio.formato}</p>
+                <div class="card-topo">
+                    <h3>${t.nome}</h3>
+                    <span class="badge badge-${t.status}">${BADGE[t.status] || t.status}</span>
+                </div>
+                <p class="detalhe">${t.jogo}</p>
+                <p class="detalhe">${t.formato}</p>
+                <div class="acoes">
+                    <button class="btn-ver">Partidas</button>
+                    <button class="btn-status">Status</button>
+                    <button class="btn-edit">Editar</button>
+                    <button class="btn-del">Excluir</button>
+                </div>
             `;
+
+            card.querySelector('.btn-ver').addEventListener('click', () => {
+                window.location.href = `partidas.html?torneioId=${t.id}&nome=${encodeURIComponent(t.nome)}`
+                
+            });
+            card.querySelector('.btn-status').addEventListener('click', () => alterarStatus(t));
+            card.querySelector('.btn-edit').addEventListener('click', () => abrirEdicao(t));
+            card.querySelector('.btn-del').addEventListener('click', () => excluirTorneio(t, card));
 
             grade.appendChild(card);
         });
-    } catch (erro) {
-        mensagem.textContent = "Erro ao carregar torneios";
-        console.error(erro);
     }
-}
 
-carregarTorneios();
+    // Alterar Status (patch)
+    async function alterarStatus(t) {
+        const ciclo = ['aberto', 'em_andamento', 'encerrado'];
+        const novo  = ciclo[(ciclo.indexOf(t.status) + 1) % ciclo.length];
+        try {
+            const response = await fetch(`${API_URL}/torneios/${t.id}/status`, {
+                method  : 'PATCH',
+                headers : { 'Content-Type': 'application/json' },
+                body    : JSON.stringify({ status: novo }),
+            });
+            if (!response.ok) throw new Error();
+            mostrarMensagem(`Status atualizado para: ${novo}`, 'sucesso');
+            carregarTorneios();
+        } catch {
+            mostrarMensagem('Erro ao atualizar status', 'erro');
+        }
+    }
+
+    // Salvar Torneio - POST / PUT
+    document.getElementById('salvar').addEventListener('click', async () => {
+        const nome = document.getElementById('nome').value.trim();
+        const jogo = document.getElementById('jogo').value.trim();
+        const formato = document.getElementById('formato').value;
+        const status = document.getElementById('status').value;
+        const editId = document.getElementById('id').value;
+
+        if (!nome) {
+            mostrarMensagem('Nome é obrigatório', 'erro');
+            return;
+        }
+        if (!jogo) {
+            mostrarMensagem('Jogo é obrigatório', 'erro');
+            return;
+        }
+        if (!formato) {
+            mostrarMensagem('Selecione um formato', 'erro');
+            return;
+        }
+
+        const dados = {nome, jogo, formato, status};
+        const url = editId ? `${API_URL}/torneios/${editId}` : `${API_URL}/torneios`;
+        const method = editId ? 'PUT' : 'POST';
+
+        try {
+            const response  = await fetch(url, {
+                method,
+                headers : { 'Content-Type': 'application/json' },
+                body    : JSON.stringify(dados),
+            });
+            const data = await response.json();
+            if (!response.ok) { 
+                mostrarMensagem(data.mensagem, 'erro'); 
+                return; 
+            }
+            fecharPopup();
+            mostrarMensagem(editId ? 'Torneio atualizado!' : 'Torneio criado!', 'sucesso');
+            carregarTorneios();
+        } catch {
+            mostrarMensagem('Erro de conexão.', 'erro');
+        }
+    })
+
+    // Excluir Torneio
+    async function excluirTorneio(t, card) {
+        if (!confirm(`Excluir "${t.nome}" e todas as suas partidas?`)) return;
+        try {
+            const response = await fetch(`${API_URL}/torneios/${t.id}`, { method: 'DELETE' });
+            if (!response.ok) throw new Error();
+            card.remove();
+            mostrarMensagem('Torneio excluído.', 'sucesso');
+        } catch {
+            mostrarMensagem('Erro ao excluir torneio.', 'erro');
+        }
+    }
+
+    // PopUp
+    function fecharPopup() {
+        popup.classList.add('popup-escondido');
+    }
+
+    document.getElementById('botaoFechar').addEventListener('click', fecharPopup);
+
+
+    document.getElementById('abrirTorneio').addEventListener('click', () => {
+        popup.classList.remove('popup-escondido');
+
+        document.getElementById('id').value = '';
+        document.getElementById('titulo').textContent = 'Novo Torneio';
+        document.getElementById('blocoStatus').style.display = 'none';
+        document.getElementById('nome').value = '';
+        document.getElementById('jogo').value = '';
+        document.getElementById('formato').value = '';
+    });
+
+    function abrirEdicao(t) {
+        popup.classList.remove('popup-escondido');
+
+        document.getElementById('titulo').textContent = 'Editar Torneio';
+        document.getElementById('id').value = t.id;
+        document.getElementById('nome').value = t.nome;
+        document.getElementById('jogo').value = t.jogo;
+        document.getElementById('formato').value = t.formato;
+        document.getElementById('status').value = t.status;
+
+        document.getElementById('blocoStatus').style.display = 'block';
+    }
+
+    function mostrarMensagem(texto, tipo = '') {
+        mensagem.textContent = texto;
+        mensagem.className   = 'mensagem ' + tipo;
+
+        if (texto && tipo !== 'aviso') setTimeout(() => 
+            { mensagem.textContent = ''; mensagem.className = 'mensagem'; }, 4000);
+    }
+
+
+    carregarTorneios();
+
+});
