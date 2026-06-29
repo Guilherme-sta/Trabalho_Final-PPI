@@ -1,8 +1,8 @@
-# ArenADS — Sistema de Gerenciamento de Torneios
+# ArenaADS — Sistema de Gerenciamento de Torneios
 
 ## 1. Descricao do Projeto
 
-ArenADS e um sistema web para gerenciamento de torneios e partidas. A aplicacao permite cadastrar torneios, acompanhar seu status, agendar partidas entre times, registrar resultados e manter um historico completo de cada competicao.
+ArenaADS e um sistema web para gerenciamento de torneios e partidas. A aplicacao permite cadastrar torneios, acompanhar seu status, agendar partidas entre times, registrar resultados e manter um historico completo de cada competicao.
 
 Este projeto foi desenvolvido como trabalho final da disciplina de Programacao para Internet, ministrada pelo professor Ely Miranda, pelos seguintes integrantes:
 
