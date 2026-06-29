@@ -23,11 +23,17 @@ Este projeto foi desenvolvido como trabalho final da disciplina de Programacao p
 - localStorage — persistencia de preferencias do usuario e cache offline
 
 **Back-end**
-
 - Node.js — ambiente de execucao
 - Express — framework para criacao da API REST
-- better-sqlite3 — banco de dados relacional local
+- @neondatabase/serverless — driver de conexao com o PostgreSQL
 - cors — liberacao de requisicoes entre origens diferentes
+
+**Banco de Dados**
+- PostgreSQL (Neon) — banco de dados relacional na nuvem
+
+**Hospedagem**
+- Vercel — deploy da API
+- GitHub Pages — hospedagem do front-end
 
 ---
 
