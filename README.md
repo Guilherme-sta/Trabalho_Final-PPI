@@ -141,7 +141,7 @@ npm install
 
 3. Crie um arquivo `.env` na raiz com a connection string do banco:
 
-DATABASE_URL= `postgresql://usuario:senha@host.neon.tech/neondb?sslmode=require`
+DATABASE_URL = `postgresql://usuario:senha@host.neon.tech/neondb?sslmode=require`
 
 4. Inicie o servidor:
 
